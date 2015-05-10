@@ -138,7 +138,8 @@ module Pundit
   end
 
   def permitted_attributes(record)
-    name = record.class.to_s.demodulize.underscore
+    name   = record.to_sym if record.respond_to? :to_sym
+    name ||= record.class.to_s.demodulize.underscore
     params.require(name).permit(policy(record).permitted_attributes)
   end
 
